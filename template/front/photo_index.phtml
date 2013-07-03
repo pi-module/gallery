@@ -1,0 +1,46 @@
+<?php $this->css($this->assetModule('css/front.css')); ?>
+<div class="gallery">
+	<div class="photo">
+		<div class="itemImg">
+			<img class="img-polaroid" src="<?php echo $this->escape($photo['mediumurl']); ?>" alt="<?php echo $photo['title']; ?>" />
+		</div>
+
+		<div class="well">
+			<div class="itemInfo">
+				<?php if($config['photo_author']) { ?><span class="itemPoster"><i class="icon-user"></i> <?php _e('By'); ?>: <?php echo $this->escape($photo['identity']); ?></span><?php } ?>
+				<?php if($config['photo_date']) { ?><span class="itemPostDate"><i class="icon-time"></i> <?php _e('Add Time'); ?>: <?php echo $this->escape($photo['create']); ?></span><?php } ?>
+				<?php if($config['photo_hits']) { ?><span class="itemStats"><i class="icon-picture"></i> <?php _e('Read'); ?>: <?php echo $this->escape($photo['hits']); ?></span><?php } ?>
+				<?php if($config['photo_coms']) { ?><span class="itemComments"><i class="icon-comment"></i> <?php _e('Comments'); ?>: <?php echo $this->escape($photo['comments']); ?></span><?php } ?>
+				<?php if($config['photo_download']) { ?><span class="itemStats"><i class="icon-download-alt"></i> <?php _e('Downloads'); ?>: <?php echo $this->escape($photo['download']); ?></span><?php } ?>
+			</div>
+			<div class="caption">
+				<?php if($config['photo_title']) { ?><h3><?php echo $this->escape($photo['title']); ?></h3><?php } ?>
+				<?php if($config['photo_information']) { ?><p><?php echo $this->escape($photo['information']); ?></p><?php } ?>
+				<?php if($tags) { ?>
+				<div class="tagbar">
+				<?php foreach($tags as $tag) { ?>
+					<a title="<?php echo $tag; ?>" href="<?php echo $this->url('.gallery', array('module' => $module, 'controller' => 'tag', 'alias' => urlencode($tag))); ?>"><span class="label label-inverse icon-tag"> <?php echo $tag; ?></span></a>
+				<?php } ?>
+				</div>
+				<?php } ?>
+			</div>
+			<div class="btn-toolbar">
+				<div class="btn-group">
+					<a class="btn" title="<?php _e('Back to Album'); ?>" href="<?php echo $photo['albumurl']; ?>"><i class="icon-arrow-left"></i> <?php _e('Back to Album'); ?></a>
+					<a class="btn" title="<?php _e('Download'); ?>" href="<?php echo $photo['downloadurl']; ?>"><i class="icon-download-alt"></i> <?php _e('Download'); ?></a>
+				</div>
+				<?php if (!empty($vote)) { include $this->template('module/vote:front/votebar'); } ?>
+			</div>
+		</div>
+		
+		<div class="itemSocial">
+	      <?php if($config['social_facebook']) { ?><span class="itemFacebook"><?php echo $this->facebook(); ?></span><?php } ?>
+	      <?php if($config['social_twitter']) { ?><span class="itemTwitter"><?php echo $this->twitter(); ?></span><?php } ?>
+	      <?php if($config['social_gplus']) { ?><span class="itemPlusone"><?php echo $this->plusone(); ?></span><?php } ?>
+      </div>
+		<?php if($config['photo_nav']) { ?>
+		<div class="itemPager"><?php echo $this->pager($link); ?> </div>
+		<?php } ?>
+	</div>
+	<?php if($usecomment){ include $this->template('module/comment:front/comments'); } ?>
+</div>		   

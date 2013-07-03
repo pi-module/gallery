@@ -1,0 +1,33 @@
+<?php $this->css($this->assetModule('css/front.css')); ?>
+<div class="gallery">
+	<div class="album row-fluid well">
+	   <div class="span3"><img class="img-polaroid" src="<?php echo $album['thumburl']; ?>" alt="<?php echo $this->escape($album['title']); ?>" /></div>
+	   <div class="span9">
+			<h3><?php echo $this->escape($album['title']); ?></h3>
+			<p><?php echo $this->escape($album['information']); ?></p>
+			<p><?php echo $this->escape($album['create']); ?></p>
+			<div class="btn-group">
+				<?php if(!empty($category)) { ?>
+				<a class="btn" title="<?php _e('Back to Category'); ?>" href="<?php echo $this->url('.gallery',array('module' => $module, 'controller' => 'category', 'alias' => $this->escape($category['alias']))); ?>"><i class="icon-arrow-left"></i> <?php _e('Back to Category'); ?></a>
+			   <?php } else { ?>
+			   <a class="btn" title="<?php _e('Back to Index'); ?>" href="<?php echo $this->url('.gallery',array('module' => $module, 'controller' => 'index')); ?>"><i class="icon-arrow-left"></i> <?php _e('Back to Index'); ?></a>
+			   <?php } ?>
+			</div>
+	   </div>
+	</div>
+	<div class="photos">
+	    <h4><?php _e('List of Photos'); ?></h4>
+       <ul class="thumbnails">
+		 <?php foreach($photos as $photo) { ?>
+			 <li class="<?php echo $config['album_columns']; ?>">
+				 <a class="thumbnail" title="<?php echo $this->escape($photo['title']); ?>" href="<?php echo $photo['url']; ?>" >
+					 <img src="<?php echo $photo['thumburl']; ?>" alt="<?php echo $this->escape($photo['title']); ?>">
+				 </a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($photo['title']); ?></h5><?php } ?>
+			 </li>
+	    <?php } ?>
+       </ul>
+	</div>
+	<div class="paginator"><?php echo $this->paginationControl($paginator, 'Sliding', 'paginator'); ?></div>
+	<?php include $this->template('front/photo'); ?>
+</div>

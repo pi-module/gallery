@@ -1,0 +1,11 @@
+<?php $this->css($this->assetModule('css/admin.css')); ?>
+<div class="gallery">
+	<div class="btn-group">
+		<a class="btn" title="<?php _e('Add Category'); ?>" href="<?php echo $this->url('', array('controller' => 'category', 'action' => 'update')); ?>"><i class="icon-list-alt"></i> <?php _e('Add Category'); ?></a>
+		<a class="btn" title="<?php _e('Add Album'); ?>" href="<?php echo $this->url('', array('controller' => 'album', 'action' => 'update')); ?>"><i class="icon-folder-open"></i> <?php _e('Add Album'); ?></a>
+	   <a class="btn" title="<?php _e('Add Photo'); ?>" href="<?php echo $this->url('', array('controller' => 'photo', 'action' => 'update')); ?>"><i class="icon-picture"></i> <?php _e('Add Photo'); ?></a>
+	</div>
+	<br />
+	<h2><?php echo $this->escape($title); ?></h2>
+	<?php include $this->templateComponent('form'); ?>
+</div> 

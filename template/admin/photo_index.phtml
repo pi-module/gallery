@@ -1,0 +1,74 @@
+<?php
+    $this->css(array(
+        $this->assetModule('css/admin.css'),
+        $this->assetModule('script/system-ui.css', 'system'),
+    ));
+    $this->jQuery();
+    $this->js($this->assetModule('script/system-msg.js', 'system'));
+?>
+<div class="gallery">
+   <div class="btn-toolbar">
+		<div class="btn-group">
+			<?php if(isset($back)) { ?>
+		   <a class="btn" title="<?php _e('Back'); ?>" href="<?php echo $this->url('', array('action' => 'index')); ?>"><i class="icon-arrow-left"></i> <?php _e('Back'); ?></a>
+		   <?php } ?>
+			<a class="btn" title="<?php _e('Add Category'); ?>" href="<?php echo $this->url('', array('controller' => 'category', 'action' => 'update')); ?>"><i class="icon-list-alt"></i> <?php _e('Add Category'); ?></a>
+			<a class="btn" title="<?php _e('Add Album'); ?>" href="<?php echo $this->url('', array('controller' => 'album', 'action' => 'update')); ?>"><i class="icon-folder-open"></i> <?php _e('Add Album'); ?></a>
+		   <a class="btn" title="<?php _e('Add Photo'); ?>" href="<?php echo $this->url('', array('controller' => 'photo', 'action' => 'update')); ?>"><i class="icon-picture"></i> <?php _e('Add Photo'); ?></a>
+		</div>
+		<div class="btn-group">
+			<a class="btn" title="<?php _e('All photos'); ?>" href="<?php echo $this->url('', array('action' => 'index')); ?>"><?php _e('All photos'); ?></a>
+			<a class="btn" title="<?php _e('Accepted photos'); ?>" href="<?php echo $this->url('', array('action' => 'index', 'type' => 'accept')); ?>"><?php _e('Accepted photos'); ?></a>
+			<a class="btn" title="<?php _e('Rejected photos'); ?>" href="<?php echo $this->url('', array('action' => 'index', 'type' => 'reject')); ?>"><?php _e('Rejected photos'); ?></a>
+		</div>
+	</div>
+	<h3><?php _e('List of photos'); ?></h3>
+	<div id="photo-list">
+		<ul class="thumbnails">
+			<?php foreach($photos as $photo) { ?>
+			<li class="span3">
+				<div class="thumbnail">
+					<img src="<?php echo $photo['thumburl']; ?>" alt="<?php echo $this->escape($photo['title']); ?>" />
+					<ul>
+						<li><?php _e('Title'); ?> : <a rel="tooltip" title="<?php echo $this->escape($photo['title']); ?>" href="<?php echo $this->url('.gallery', array('module' => $module, 'controller' => 'photo', 'id' => $this->escape($photo['id']))); ?>"><?php echo $this->escape($photo['shorttitle']); ?></a></li>
+						<li><?php _e('Author'); ?> : <a title="<?php echo $this->escape($photo['identity']); ?>" href="<?php echo $this->url('', array('controller' => 'photo', 'action' => 'index', 'author' => $photo['author'])); ?>"><?php echo $this->escape($photo['identity']); ?></a></li>
+						<li><?php _e('Album'); ?> : <a title="<?php echo $this->escape($photo['albumtitle']); ?>" href="<?php echo $this->url('', array('controller' => 'photo', 'action' => 'index', 'album' => $photo['album'])); ?>"><?php echo $this->escape($photo['albumtitle']); ?></a></li>
+				      <li><?php _e('ID'); ?> : <?php echo $photo['id']; ?></li>
+					   <li><?php _e('Create'); ?> : <?php echo $this->escape($photo['create']); ?></li>
+				   </ul>
+				   <p>
+				   <?php if($photo['status'] == 1) { ?>
+					   <button type="button" class="btn btn-warning btn-small" data-toggle="button" data-link="<?php echo $this->url('', array('action' => 'accept', 'id' => $photo['id'], 'status' => '0')); ?>"><i class="icon-remove icon-white"></i> <?php _e('Reject'); ?></button>
+						<?php } else { ?>
+						<button type="button" class="btn btn-success btn-small" data-toggle="button" data-link="<?php echo $this->url('', array('action' => 'accept', 'id' => $photo['id'], 'status' => '1')); ?>"><i class="icon-ok icon-white"></i> <?php _e('Accept'); ?></button>
+					<?php } ?>
+					</p>
+					<div class="btn-group doaction">
+						<a class="btn btn-small" title="<?php _e('View'); ?>" href="<?php echo $this->url('.gallery', array('module' => $module, 'controller' => 'photo', 'id' => $this->escape($photo['id']))); ?>"><i class="icon-eye-open"></i> <?php _e('View'); ?></a>
+						<a class="btn btn-small" title="<?php _e('Edit'); ?>" href="<?php echo $this->url('', array('action' => 'update', 'id' => $photo['id'])); ?>"><i class="icon-edit"></i> <?php _e('Edit'); ?></a>
+						<a class="btn btn-small" title="<?php _e('Delete'); ?>" href="<?php echo $this->url('', array('action' => 'delete', 'id' => $photo['id'])); ?>"><i class="icon-trash"></i> <?php _e('Delete'); ?></a>
+					</div>
+				</div>		
+			</li>
+			<?php } ?>
+		</ul>
+	</div>
+	<div class="paginator"><?php echo $this->paginationControl($paginator, 'Sliding', 'paginator'); ?></div>
+</div>
+<script type="text/javascript" >
+(function($){
+    $("#photo-list").on("click","button",function(){
+       systemMessage.wait("<?php _e('Accept photo in process'); ?>");
+       $.getJSON($(this).attr("data-link")).done(function(result){
+          if(result.status==1){
+             systemMessage.succ(result.message);
+          }else{
+             systemMessage.fail(result.message);
+          }
+       });
+    });
+    $("a[rel=tooltip]").tooltip({
+        placement:"bottom"
+    });
+})(jQuery)
+</script>

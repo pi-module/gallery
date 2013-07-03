@@ -1,0 +1,48 @@
+<?php $this->css($this->assetModule('css/front.css')); ?>
+<div class="photo-bar"> 
+	<?php if($config['list_lastphoto']) { ?>
+	<div class="photos last-photo-bar">
+		<h4><?php _e('Last Photos'); ?></h4>
+		<ul class="thumbnails">
+		<?php foreach($lastPhotos as $photo) { ?>
+			<li class="<?php echo $config['album_columns']; ?>">
+				<a class="thumbnail" title="<?php echo $this->escape($photo['title']); ?>" href="<?php echo $photo['url']; ?>" >
+					<img src="<?php echo $photo['thumburl']; ?>" alt="<?php echo $this->escape($photo['title']); ?>">
+				</a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($photo['title']); ?></h5><?php } ?>
+			</li>
+	   <?php } ?>
+		</ul>
+	</div>
+	<?php } ?>
+	<?php if($config['list_topphoto']) { ?>
+	<div class="photos top-photo-bar">
+		<h4><?php _e('Top Photos'); ?></h4>
+		<ul class="thumbnails">
+		<?php foreach($topPhotos as $photo) { ?>
+			<li class="<?php echo $config['album_columns']; ?>">
+				<a class="thumbnail" title="<?php echo $this->escape($photo['title']); ?>" href="<?php echo $photo['url']; ?>" >
+					<img src="<?php echo $photo['thumburl']; ?>" alt="<?php echo $this->escape($photo['title']); ?>">
+				</a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($photo['title']); ?></h5><?php } ?>
+			</li>
+	   <?php } ?>
+		</ul>
+	</div>
+	<?php } ?>
+	<?php if($config['list_randomphoto']) { ?>
+	<div class="photos random-photo-bar">
+		<h4><?php _e('Random Photos'); ?></h4>
+		<ul class="thumbnails">
+		<?php foreach($randomPhotos as $photo) { ?>
+			<li class="<?php echo $config['album_columns']; ?>">
+				<a class="thumbnail" title="<?php echo $this->escape($photo['title']); ?>" href="<?php echo $photo['url']; ?>" >
+					<img src="<?php echo $photo['thumburl']; ?>" alt="<?php echo $this->escape($photo['title']); ?>">
+				</a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($photo['title']); ?></h5><?php } ?>
+			</li>
+	   <?php } ?>
+		</ul>
+	</div>
+	<?php } ?>
+</div>

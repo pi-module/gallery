@@ -1,0 +1,30 @@
+<?php $this->css(array(
+	$this->assetModule('css/front.css'),
+	$this->assetModule('css/profile.css'),
+)); ?>
+<div class="gallery">
+	<div class="profile well">
+		<div class="profile-avatar">
+			<?php echo $this->gravatar($this->escape($user['email'])); ?>
+		</div>
+		<div class="profile-info">
+			<h3 class="profile-identity"><?php echo $this->escape($user['identity']); ?></h3>
+			<div class="profile-email"><?php echo $this->escape($user['email']); ?></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="typetable">
+		 <ul class="thumbnails">
+		 <?php foreach($photos as $photo) { ?>
+			 <li class="<?php echo $config['album_columns']; ?>">
+				 <a class="thumbnail" title="<?php echo $this->escape($photo['title']); ?>" href="<?php echo $photo['url']; ?>" >
+					 <img src="<?php echo $photo['thumburl']; ?>" alt="<?php echo $this->escape($photo['title']); ?>">
+				 </a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($photo['title']); ?></h5><?php } ?>
+			 </li>
+	    <?php } ?>
+       </ul>
+	</div>
+	<div class="paginator"><?php echo $this->paginationControl($paginator, 'Sliding', 'paginator'); ?></div>
+	<?php include $this->template('front/photo'); ?>
+</div>

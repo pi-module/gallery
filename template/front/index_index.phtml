@@ -1,0 +1,52 @@
+<?php $this->css($this->assetModule('css/front.css')); ?>
+<div class="gallery">
+	<?php if(!empty($category)) { ?>
+	<div class="category row-fluid well">
+	   <div class="span3"><img class="img-polaroid" src="<?php echo $category['thumburl']; ?>" alt="<?php echo $this->escape($category['title']); ?>" /></div>
+	   <div class="span9">
+			<h3><?php echo $this->escape($category['title']); ?></h3>
+			<p><?php echo $this->escape($category['information']); ?></p>
+			<p><?php echo $this->escape($category['create']); ?></p>
+			<div class="btn-group">
+			   <?php if(empty($subcategorizes)) { ?>
+				<a class="btn" title="<?php _e('Back to Index'); ?>" href="<?php echo $this->url('.gallery',array('module' => $module)); ?>"><i class="icon-arrow-left"></i> <?php _e('Back to Index'); ?></a>
+			   <?php } else { ?>
+			   <a class="btn" title="<?php _e('Back to Main Category'); ?>" href="<?php echo $this->url('.gallery',array('module' => $module)); ?>"><i class="icon-arrow-left"></i> <?php _e('Back to Main Category'); ?></a>
+			   <?php } ?>
+			</div>
+	   </div>
+	</div>
+	<?php } ?>
+	<?php if(!empty($subcategorizes)) { ?>
+	<div class="subcategorizes page-header">
+	    <h4><?php _e('List of Sub Categorizes'); ?></h4>
+       <ul class="thumbnails">
+		 <?php foreach($subcategorizes as $category) { ?>
+			 <li class="<?php echo $config['album_columns']; ?>">
+				 <a class="thumbnail" title="<?php echo $this->escape($category['title']); ?>" href="<?php echo $category['url']; ?>" >
+					 <img src="<?php echo $category['thumburl']; ?>" alt="<?php echo $this->escape($category['title']); ?>">
+				 </a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($category['title']); ?></h5><?php } ?>
+			 </li>
+	    <?php } ?>
+       </ul>
+	</div>
+	<?php } ?>
+	<?php if(!empty($albums)) { ?>
+	<div class="albums">
+	    <h4><?php _e('List of Albums'); ?></h4>
+       <ul class="thumbnails">
+		 <?php foreach($albums as $album) { ?>
+			 <li class="<?php echo $config['album_columns']; ?>">
+				 <a class="thumbnail" title="<?php echo $this->escape($album['title']); ?>" href="<?php echo $album['url']; ?>" >
+					 <img src="<?php echo $album['thumburl']; ?>" alt="<?php echo $this->escape($album['title']); ?>">
+				 </a>
+				 <?php if($config['album_title']) { ?><h5><?php echo $this->escape($album['title']); ?></h5><?php } ?>
+			 </li>
+	    <?php } ?>
+       </ul>
+	</div>
+	<?php } ?>
+	<div class="paginator"><?php echo $this->paginationControl($paginator, 'Sliding', 'paginator'); ?></div>
+	<?php include $this->template('front/photo'); ?>
+</div>
