@@ -117,13 +117,13 @@ class AlbumController extends ActionController
                 }
                 // Set keywords
                 $keywords = ($values['keywords']) ? $values['keywords'] : $values['title'];
-                $values['keywords'] = $this->meta()->keywords($keywords);
+                $values['keywords'] = Pi::service('api')->gallery(array('Text', 'keywords'), $keywords);
                 // Set description
                 $description = ($values['description']) ? $values['description'] : $values['title'];
-                $values['description'] = $this->meta()->description($description);
+                $values['description'] = Pi::service('api')->gallery(array('Text', 'description'), $description);
                 // Set alias
                 $alias = ($values['alias']) ? $values['alias'] : $values['title'];
-                $values['alias'] = $this->alias($alias, $values['id'], $this->getModel('album'));
+                $values['alias'] = Pi::service('api')->gallery(array('Text', 'alias'), $alias, $values['id'], $this->getModel('album'));
                 // Set if new
                 if (empty($values['id'])) {
                     // Set time

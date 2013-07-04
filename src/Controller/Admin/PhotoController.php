@@ -187,9 +187,9 @@ class PhotoController extends ActionController
                         // Get image name
                         $values['image'] = $uploader->getUploaded('image');
                         // Resize
-                        $this->resize($values['image'], $original_path, $large_path, '8000', '8000');
-                        $this->resize($values['image'], $original_path, $medium_path, '8000', '8000');
-                        $this->resize($values['image'], $original_path, $thumb_path, '8000', '8000');
+                        Pi::service('api')->gallery(array('Resize', 'start'), $values['image'], $original_path, $large_path, $this->config('image_largew'), $this->config('image_largeh'));
+                        Pi::service('api')->gallery(array('Resize', 'start'), $values['image'], $original_path, $medium_path, $this->config('image_mediumw'), $this->config('image_mediumh'));
+                        Pi::service('api')->gallery(array('Resize', 'start'), $values['image'], $original_path, $thumb_path, $this->config('image_thumbw'), $this->config('image_thumbh'));
                     } else {
                         $message = $upload->getErrors();
                         $class = 'alert-error';
@@ -206,13 +206,13 @@ class PhotoController extends ActionController
                 }
                 // Set keywords
                 $keywords = ($values['keywords']) ? $values['keywords'] : $values['title'];
-                $values['keywords'] = $this->meta()->keywords($keywords);
+                $values['keywords'] = Pi::service('api')->gallery(array('Text', 'keywords'), $keywords);
                 // Set description
                 $description = ($values['description']) ? $values['description'] : $values['title'];
-                $values['description'] = $this->meta()->description($description);
+                $values['description'] = Pi::service('api')->gallery(array('Text', 'description'), $description);
                 // Set alias
                 $alias = ($values['alias']) ? $values['alias'] : $values['title'];
-                $values['alias'] = $this->alias($alias, $values['id'], $this->getModel('photo'));
+                $values['alias'] = Pi::service('api')->gallery(array('Text', 'alias'), $alias, $values['id'], $this->getModel('photo'));
                 // Set if new
                 if (empty($values['id'])) {
                     // Set time
@@ -338,9 +338,9 @@ class PhotoController extends ActionController
                     // Set info
                     $image = $uploader->getUploaded('file');
                     // Resize
-                    $this->resize($image, $original_path, $large_path, $this->config('image_largew'), $this->config('image_largeh'));
-                    $this->resize($image, $original_path, $medium_path, $this->config('image_mediumw'), $this->config('image_mediumh'));
-                    $this->resize($image, $original_path, $thumb_path, $this->config('image_thumbw'), $this->config('image_thumbh'));
+                    Pi::service('api')->gallery(array('Resize', 'start'), $image, $original_path, $large_path, $this->config('image_largew'), $this->config('image_largeh'));
+                    Pi::service('api')->gallery(array('Resize', 'start'), $image, $original_path, $medium_path, $this->config('image_mediumw'), $this->config('image_mediumh'));
+                    Pi::service('api')->gallery(array('Resize', 'start'), $image, $original_path, $thumb_path, $this->config('image_thumbw'), $this->config('image_thumbh'));
                     // Set save array
                     $values['image'] = $image;
                     $values['title'] = $album['title'];
@@ -350,8 +350,8 @@ class PhotoController extends ActionController
                     $values['status'] = 1;
                     $values['author'] = Pi::registry('user')->id;
                     $values['alias'] = md5($image . $path); // temporary
-                    $values['description'] = $this->meta()->description($album['title']);
-                    $values['keywords'] = $this->meta()->keywords($album['title']);
+                    $values['description'] = Pi::service('api')->gallery(array('Text', 'description'), $album['title']);
+                    $values['keywords'] = Pi::service('api')->gallery(array('Text', 'keywords'), $album['title']);
                     // save in DB
                     $row = $this->getModel('photo')->createRow();
                     $row->assign($values);

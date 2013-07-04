@@ -44,7 +44,7 @@ class ToolsController extends ActionController
             switch ($values['rebuild']) {
                 case 'alias':
                     foreach ($rowset as $row) {
-                        $values['alias'] = $this->alias($row->title, $row->id, $this->getModel('photo'));
+                        $values['alias'] = Pi::service('api')->gallery(array('Text', 'alias'), $row->title, $row->id, $this->getModel('photo'));
                         $this->getModel('photo')->update(array('alias' => $alias), array('id' => $row->id));
                     }
                     $message = __('Finish Rebuild Alias, all story alias update');
@@ -52,7 +52,7 @@ class ToolsController extends ActionController
 
                 case 'keywords':
                     foreach ($rowset as $row) {
-                        $keywords = $this->meta()->keywords($row->title);
+                        $keywords = Pi::service('api')->gallery(array('Text', 'keywords'), $row->title);
                         $this->getModel('photo')->update(array('keywords' => $keywords), array('id' => $row->id));
                     }
                     $message = __('Finish Rebuild Meta keywords, all story Meta keywords update');
@@ -60,7 +60,7 @@ class ToolsController extends ActionController
 
                 case 'description':
                     foreach ($rowset as $row) {
-                        $description = $this->meta()->description($row->title);
+                        $description = Pi::service('api')->gallery(array('Text', 'description'), $row->title);
                         $this->getModel('photo')->update(array('description' => $description), array('id' => $row->id));
                     }
                     $message = __('Finish Rebuild Meta description, all story Meta description update');
